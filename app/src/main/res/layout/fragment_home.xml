@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.me.test.pinboard.pinboard.DrawerFragments.HomeFragment"
+    android:layout_weight="2"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.96"
+            android:elevation="3dp"
+            android:paddingBottom="5dp"
+            android:background="#FAFAFA"
+            android:id="@+id/notes_holder"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notes_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/action_button"
+        android:src="@drawable/fab_plus_icon"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/fab_margin"
+        app:elevation="10dp"
+        app:borderWidth="0dp"
+        app:backgroundTint="@color/primary_color"
+        app:pressedTranslationZ="12dp"
+        />
+
+
+
+</RelativeLayout>
