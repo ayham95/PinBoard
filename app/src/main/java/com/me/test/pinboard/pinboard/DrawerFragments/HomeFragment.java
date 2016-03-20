@@ -61,24 +61,24 @@ public class HomeFragment extends Fragment {
 
 
     private void setNotesRecyclerView(View rootView) {
-        this.notesRecyclerView = (RecyclerView) rootView.findViewById(R.id.notes_recycler_view);
-        this.notesRecyclerView.setHasFixedSize(true);
-        this.staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
-        this.notesRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        notesRecyclerView = (RecyclerView) rootView.findViewById(R.id.notes_recycler_view);
+        notesRecyclerView.setHasFixedSize(true);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        notesRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         setNotes();
-        this.notesRecyclerViewAdapter = new NotesRecyclerViewAdapter(notes);
-        this.notesRecyclerView.setAdapter(notesRecyclerViewAdapter);
+        notesRecyclerViewAdapter = new NotesRecyclerViewAdapter(notes);
+        notesRecyclerView.setAdapter(notesRecyclerViewAdapter);
 
     }
 
     private void setNotes() {
         notes = new ArrayList<Note>();
-        this.notes.add(new Note("test #1", "this is a description of wut would happened", R.color.light_blue_card));
-        this.notes.add(new Note("The second one", "wow look at all these colors!",R.color.gray_card));
-        this.notes.add(new Note("HELLO!", "this is going great so far! :D", R.color.blue_card));
-        this.notes.add(new Note("ok??", "So after a long day of programming big time! i did do it it's way more that awesome still need some designing shit but it's nice :P", R.color.light_blue_card));
-        this.notes.add(new Note("anyway.", "and this is another description you might want to see xD", R.color.gray_card));
-        this.notes.add(new Note("So?", "you can go now :D", R.color.blue_card));
+        notes.add(new Note("test #1", "this is a description of wut would happened", R.color.light_blue_card));
+        notes.add(new Note("The second one", "wow look at all these colors!",R.color.gray_card));
+        notes.add(new Note("HELLO!", "this is going great so far! :D", R.color.blue_card));
+        notes.add(new Note("ok??", "So after a long day of programming big time! i did do it it's way more that awesome still need some designing shit but it's nice :P", R.color.light_blue_card));
+        notes.add(new Note("anyway.", "and this is another description you might want to see xD", R.color.gray_card));
+        notes.add(new Note("So?", "you can go now :D", R.color.blue_card));
     }
 
     private void setFloatingActionButton(View rootView)

@@ -1,4 +1,4 @@
-package com.me.test.pinboard.pinboard.Activities;
+  package com.me.test.pinboard.pinboard.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;

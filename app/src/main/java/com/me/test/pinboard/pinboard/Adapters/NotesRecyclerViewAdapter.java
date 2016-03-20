@@ -29,8 +29,7 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecycler
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_layout, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
 
@@ -55,9 +54,9 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecycler
         public ViewHolder(View v)
         {
             super(v);
-            this.title = (TextView) v.findViewById(R.id.note_title);
-            this.description = (TextView) v.findViewById(R.id.note_description);
-            this.card_container = (LinearLayout) v.findViewById(R.id.card_container);
+            title = (TextView) v.findViewById(R.id.note_title);
+            description = (TextView) v.findViewById(R.id.note_description);
+            card_container = (LinearLayout) v.findViewById(R.id.card_container);
 
 
         }
