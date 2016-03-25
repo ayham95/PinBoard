@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolBar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    public int test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
