@@ -1,32 +1,45 @@
-  package com.me.test.pinboard.pinboard.Activities;
+package com.me.test.pinboard.pinboard.Activities;
 
+import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.me.test.pinboard.pinboard.DrawerFragments.HomeFragment;
 import com.me.test.pinboard.pinboard.R;
 
-public class NoteActivity extends AppCompatActivity {
+public class NoteActivity extends ActionBarActivity {
 
-    private Toolbar noteToolBar;
+    private EditText title, note;
+    private Button test2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        setNoteToolBar();
+        title = (EditText) findViewById(R.id.title_text);
+        note = (EditText) findViewById(R.id.description_text);
+        test2 = (Button) findViewById(R.id.add_note);
+        test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = title.getText().toString();
+                String message2 = note.getText().toString();
+                Intent intent = new Intent();
+                intent.putExtra("TITLE",message);
+                intent.putExtra("NOTE",message2);
+                setResult(2, intent);
+                finish();
+            }
+        });
 
-    }
 
-    private void setNoteToolBar() {
-        noteToolBar = (Toolbar) findViewById(R.id.note_toolbar);
-        if(noteToolBar != null)
-        setSupportActionBar(noteToolBar);
+
+
     }
 
     @Override

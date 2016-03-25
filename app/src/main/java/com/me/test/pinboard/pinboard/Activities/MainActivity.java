@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolBar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    public int test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,11 @@ public class MainActivity extends AppCompatActivity {
     {
         if (mToolBar != null)
         {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            try {
+
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }catch (NullPointerException e){}
             navigationView = (NavigationView) findViewById(R.id.navigation_view);
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
             //mToolBar.setNavigationIcon(R.drawable.ic_drawer);
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayView(int viewId) {
 
-        Fragment fragment = null;
+        Fragment fragment;
         String title = getString(R.string.app_name);
 
         switch (viewId) {
@@ -113,17 +116,19 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (fragment != null) {
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment);
             ft.commit();
-        }
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
         drawer.closeDrawer(GravityCompat.START);
     }
+
+
 
 
 }
