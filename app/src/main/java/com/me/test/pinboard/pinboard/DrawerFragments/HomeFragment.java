@@ -1,5 +1,9 @@
 package com.me.test.pinboard.pinboard.DrawerFragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,10 +14,16 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.me.test.pinboard.pinboard.Activities.NoteActivity;
 import com.me.test.pinboard.pinboard.Adapters.NotesRecyclerViewAdapter;
+import com.me.test.pinboard.pinboard.Model.FabPath;
 import com.me.test.pinboard.pinboard.Model.Note;
+import com.me.test.pinboard.pinboard.Model.PathEvaluator;
+import com.me.test.pinboard.pinboard.Model.PathPoint;
 import com.me.test.pinboard.pinboard.R;
 
 import java.util.ArrayList;
@@ -32,7 +42,17 @@ public class HomeFragment extends Fragment {
     private NotesRecyclerViewAdapter notesRecyclerViewAdapter;
     private ArrayList<Note> notes;
     private FloatingActionButton floatingActionButton;
-    private String string;
+
+
+    public final static float SCALE_FACTOR      = 10f;
+    public final static int ANIMATION_DURATION  = 280;
+    public final static int MINIMUN_X_DISTANCE  = 200;
+
+    private boolean mRevealFlag;
+    private float fabSize;
+    private RelativeLayout notesHolder;
+    private RelativeLayout fabContainer;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -45,14 +65,22 @@ public class HomeFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        fabContainer = (RelativeLayout) rootView.findViewById(R.id.fab_container);
+        notesHolder = (RelativeLayout) rootView.findViewById(R.id.notes_holder);
+
+        fabSize = 0;
+
+
         setNotesRecyclerView(rootView);
         setFloatingActionButton(rootView);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), NoteActivity.class);
-                startActivityForResult(intent, 2);
+                onFabPressed(fabContainer);
+
+                //Intent intent = new Intent(getActivity(), NoteActivity.class);
+                //startActivityForResult(intent, 2);
 
             }
         });
@@ -117,5 +145,72 @@ public class HomeFragment extends Fragment {
             }catch (RuntimeException e){}
         }
     }
+
+    public void onFabPressed(View view) {
+        final float startX = floatingActionButton.getX();
+
+        FabPath path = new FabPath();
+        path.moveTo(0, 0);
+        path.curveTo(-50, 200, -90, 300, -250, 300); //              (x and y are the original location)
+
+        final ObjectAnimator anim = ObjectAnimator.ofObject(this, "fabLoc", new PathEvaluator(), path.getPoints().toArray());
+
+        anim.setInterpolator(new AccelerateInterpolator());
+        anim.setDuration(ANIMATION_DURATION);
+        anim.start();
+
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                if (Math.abs(startX - floatingActionButton.getX()) > MINIMUN_X_DISTANCE) {
+                    if (!mRevealFlag) {
+                        fabContainer.setY(fabContainer.getY() + fabSize / 2);
+
+                        floatingActionButton.animate()
+                                .scaleXBy(SCALE_FACTOR)
+                                .scaleYBy(SCALE_FACTOR)
+                                .setListener(mEndRevealListener)
+                                .setDuration(ANIMATION_DURATION);
+
+                        mRevealFlag = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private AnimatorListenerAdapter mEndRevealListener = new AnimatorListenerAdapter() {
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            super.onAnimationStart(animation);
+            //notesHolder.setElevation(1f);
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+
+            floatingActionButton.setVisibility(View.INVISIBLE);
+            fabContainer.setBackgroundColor(getResources()
+                    .getColor(R.color.primary_color));
+
+        }
+    };
+
+    public void setFabLoc(PathPoint newLoc) {
+        floatingActionButton.setTranslationX(newLoc.getX());
+
+        if (mRevealFlag)
+            floatingActionButton.setTranslationY(newLoc.getY() - (fabSize / 2));
+        else
+            floatingActionButton.setTranslationY(newLoc.getY());
+
+
+    }
+
+
 
 }
